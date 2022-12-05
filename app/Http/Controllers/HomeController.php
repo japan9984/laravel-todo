@@ -1,0 +1,224 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Post;
+use Illuminate\Mail\Mailables\Content;
+use App\Models\Memo;
+use App\Models\Folder;
+use App\Models\MemoFolder;
+use DB;
+use Illuminate\Auth\Events\Validated;
+
+class HomeController extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    // public function index()
+    // {
+    //     $query_folder = \Request::query('folder');
+
+    //     $memos = Memo::select('memos.*')
+    //     ->leftJoin('memo_folders', 'memo_folders.memo_id', '=', 'memos.id')
+    //     ->where('memo_folders.folder_id', '=', $query_folder)
+    //     ->where('user_id', '=', \Auth::id())
+    //     ->whereNull('deleted_at')
+    //     ->orderBy('updated_at', 'DESC')
+    //     ->get();
+
+    //     $folders = Folder::select('folders.*')
+    //     ->where('user_id', '=', \Auth::id())
+    //     ->whereNull('deleted_at')
+    //     ->orderBy('updated_at', 'DESC')
+    //     ->get();
+    //     return view('home',compact('memos','folders'));
+    // }
+
+    public function home()
+    {
+        return view('create');
+    }
+
+    public function memo_create(Request $request)
+    {
+        // $posts = $request->all();
+        $folder_id_n = $request->folder_id;
+        return view('memo.create', compact('folder_id_n'));
+    }
+
+    public function memo_edit($id)
+    {
+        $memos = Memo::select('memos.*')
+        ->where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        $edit_memo = Memo::find($id);
+
+        return view('memo.edit',compact('memos','edit_memo'));
+    }
+
+    public function memo_store(Request $request)
+    {
+
+        // $request->validate(['content' => 'reqired']);
+        $posts = $request->all();
+        // DB::transaction(function() use($posts){
+        $memo_id = Memo::insertGetId(['content' => $posts['content'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
+        $folder_id = $posts['folder_id'];
+        MemoFolder::insert(['memo_id' => $memo_id, 'folder_id' => $folder_id]);
+        // });
+
+        // $folders = Folder::where('user_id', '=', '\Auth::id()')
+        // ->whereNull('deleted_at')
+        // ->orderBy('id', 'DESC')
+        // ->get();
+
+        // Memo::insert(['content' => $posts['content'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
+        return redirect( route('index') );
+
+    }
+
+    public function memo_update(Request $request)
+    {
+        $posts = $request->all();
+
+        Memo::where('id', $posts['memo_id'])
+        ->update(['content' => $posts['content'],'deadline' => $posts['deadline']]);
+        return redirect( route('index') );
+    }
+
+    // public function folder_create()
+    // {
+    //     return view('folder.create');
+    // }
+
+    public function folder_store(Request $request)
+    {
+        $posts = $request->all();
+        Folder::insert(['folder' => $posts['folder'],'user_id'=>\Auth::id()]);
+        // DB::transaction(function() use($posts){
+        //     $folder_id = Folder::insertGetId(['folder' => $posts['folder'],'user_id'=>\Auth::id()]);
+        // });
+        return redirect( route('index') );
+    }
+
+    public function folder_show(Folder $folder)
+    {
+        $folders = Folder::select('folders.*')
+        ->where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        // $edit_folder = Folder::find($id);
+
+        $folder_id = $folder->id;
+
+        return view('folder.show',compact('folders','folder_id'));
+    }
+
+
+    public function index()
+    {
+        $folders = Folder::where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        return view('todo.4_top', compact('folders'));
+    }
+
+    public function todo_folder_create()
+    {
+        return view('todo.5_folder_create');
+    }
+
+    public function todo_folder_store(Request $request)
+    {
+        $posts = $request->all();
+        Folder::insert(['folder' => $posts['title'],'user_id'=>\Auth::id()]);
+        // DB::transaction(function() use($posts){
+        //     $folder_id = Folder::insertGetId(['folder' => $posts['folder'],'user_id'=>\Auth::id()]);
+        // });
+        return redirect( route('todo.folder_index') );
+    }
+
+    public function todo_folder_index()
+    {
+        $query_folder = \Request::query('folder');
+
+        $memos = Memo::select('memos.*')
+        ->leftJoin('memo_folders', 'memo_folders.memo_id', '=', 'memos.id')
+        ->where('memo_folders.folder_id', '=', $query_folder)
+        ->where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        $folders = Folder::select('folders.*')
+        ->where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+        return view( 'todo.6_folder_index',compact('memos','folders') );
+    }
+
+    public function todo_task_create(Request $request)
+    {
+        // $posts = $request->all();
+        $folder_id_n = $request->folder_id;
+        return view('todo.7_task_create', compact('folder_id_n'));
+    }
+
+    public function todo_task_store(Request $request)
+    {
+
+        // $request->validate(['content' => 'reqired']);
+        $posts = $request->all();
+        // dd($posts);
+        // DB::transaction(function() use($posts){
+        $memo_id = Memo::insertGetId(['content' => $posts['title'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
+        // $folder_id = $posts['folder_id'];
+        // MemoFolder::insert(['memo_id' => $memo_id, 'folder_id' => $folder_id]);
+        // });
+
+        // $folders = Folder::where('user_id', '=', '\Auth::id()')
+        // ->whereNull('deleted_at')
+        // ->orderBy('id', 'DESC')
+        // ->get();
+
+        // Memo::insert(['content' => $posts['content'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
+        return redirect( route('todo.folder_index') );
+
+    }
+
+    public function todo_task_edit($id)
+    {
+        $memos = Memo::select('memos.*')
+        ->where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        $edit_memo = Memo::find($id);
+
+        return view('todo.8_task_edit',compact('memos','edit_memo'));
+    }
+
+}
