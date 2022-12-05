@@ -176,27 +176,29 @@ class HomeController extends Controller
         ->whereNull('deleted_at')
         ->orderBy('updated_at', 'DESC')
         ->get();
+
         return view( 'todo.6_folder_index',compact('memos','folders') );
     }
 
-    public function todo_task_create(Request $request)
+    public function todo_task_create(Request $request, $folder_id)
     {
         // $posts = $request->all();
-        $folder_id_n = $request->folder_id;
-        return view('todo.7_task_create', compact('folder_id_n'));
+        // dd($request->folder_id);
+    //     dd($folder_id);
+    //    $folder_id_n = $request->folder_id;
+        return view('todo.7_task_create', compact('folder_id'));
     }
 
     public function todo_task_store(Request $request)
     {
-
         // $request->validate(['content' => 'reqired']);
         $posts = $request->all();
         // dd($posts);
-        // DB::transaction(function() use($posts){
+        DB::transaction(function() use($posts){
         $memo_id = Memo::insertGetId(['content' => $posts['title'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
-        // $folder_id = $posts['folder_id'];
-        // MemoFolder::insert(['memo_id' => $memo_id, 'folder_id' => $folder_id]);
-        // });
+        $folder_id = $posts['folder_id'];
+        MemoFolder::insert(['memo_id' => $memo_id, 'folder_id' => $folder_id]);
+        });
 
         // $folders = Folder::where('user_id', '=', '\Auth::id()')
         // ->whereNull('deleted_at')
@@ -205,7 +207,6 @@ class HomeController extends Controller
 
         // Memo::insert(['content' => $posts['content'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
         return redirect( route('todo.folder_index') );
-
     }
 
     public function todo_task_edit($id)
@@ -219,6 +220,37 @@ class HomeController extends Controller
         $edit_memo = Memo::find($id);
 
         return view('todo.8_task_edit',compact('memos','edit_memo'));
+    }
+
+    public function todo_folder_show(Folder $folder)
+    {
+        // dd($folder->folder);
+        // $folder_id = $folder['id'] ;
+        $memos_id = MemoFolder::where('folder_id', $folder['id'])->pluck('memo_id')->toArray();
+        $memos = Memo::whereIn('id', $memos_id)->get();
+
+        // $memos = Memo::select('memos.*')
+        // ->leftJoin('memo_folders', 'memo_folders.memo_id', '=', 'memos.id')
+        // ->leftJoin('folders', 'memo_folders.folder_id', '=', 'folders.id')
+        // ->where('memo_folders.folder_id', '=', 'folders.id')
+        // ->where('user_id', '=', \Auth::id())
+        // ->where('folders.id', '=', $folder_id)
+        // ->whereNull('deleted_at')
+        // ->orderBy('updated_at', 'DESC')
+        // ->get();
+
+        $folders = Folder::select('folders.*')
+        // ->where('id', '=', $folder['id'])
+        ->where('user_id', '=', \Auth::id())
+        ->whereNull('deleted_at')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        // $edit_folder = Folder::find($id);
+
+        $folder_id = $folder->id;
+
+        return view('todo.folder_show',compact('memos', 'folders','folder_id'));
     }
 
 }

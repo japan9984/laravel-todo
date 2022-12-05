@@ -35,7 +35,7 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
 
-Route::get('/todo/task_create/', [HomeController::class, 'todo_task_create'])->name('todo.task_create');
+Route::get('/todo/task_create/{folder_id}', [HomeController::class, 'todo_task_create'])->name('todo.task_create');
 Route::post('/todo/task_store/', [HomeController::class, 'todo_task_store'])->name('todo.task_store');
 Route::get('/todo/task_edit/{id}', [HomeController::class, 'todo_task_edit'])->name('todo.task_edit');
 // Route::post('/memo/update', [HomeController::class, 'memo_update'])->name('memo.update');
@@ -44,6 +44,7 @@ Route::get('/todo/folder_create/', [HomeController::class, 'todo_folder_create']
 Route::get('/todo/folder_show/{folder}', [HomeController::class, 'todo_folder_show'])->name('todo.folder_show');
 Route::post('/todo/folder_store/', [HomeController::class, 'todo_folder_store'])->name('todo.folder_store');
 Route::get('/todo/folder_index/', [HomeController::class, 'todo_folder_index'])->name('todo.folder_index');
+// Route::get('/todo/folder_show/{folder}', [HomeController::class, 'todo_folder_show'])->name('todo.folder_show');
 // Route::post('/folder/store/', [HomeController::class, 'folder_store'])->name('folder.store');
 
 

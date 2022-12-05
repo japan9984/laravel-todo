@@ -35,7 +35,7 @@
                               </div>
               <form action="{{ route('todo.task_store') }}" method="POST">
                 @csrf
-              <input type="hidden" value="{{ ($folder_id_n) }}" name="folder_id">
+              <input type="hidden" value="{{ ($folder_id) }}" name="folder_id">
               <div class="form-group">
                 <label for="title">タイトル</label>
                 <input type="text" class="form-control" name="title" id="title" value="">

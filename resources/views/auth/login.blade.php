@@ -91,8 +91,9 @@
                                   <p>メールアドレス は必須入力です。</p>
                                   <p>パスワード は必須入力です。</p>
                               </div>
-                        <form action="http://intern-3.stg.commude.biz/login" method="POST">
-              <input type="hidden" name="_token" value="LDRHeyJYemuzXpLylyuRRH0L3vbhLBJzqf3NNMYZ">              <div class="form-group">
+                              <form method="POST" action="{{ route('login') }}">
+                                @csrf
+              <div class="form-group">
                 <label for="email">メールアドレス</label>
                 <input type="text" class="form-control" id="email" name="email" value="">
               </div>
