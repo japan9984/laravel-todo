@@ -47,13 +47,13 @@
       <div class="column col-md-8">
         <div class="panel panel-default">
           <div class="panel-heading">タスク</div>
-          <div class="panel-body">
+          {{-- <div class="panel-body">
             <div class="text-right">
               <a href="/todo/task_create/{{ $folder['id'] }}" class="btn btn-default btn-block">
                 タスクを追加する
               </a>
             </div>
-          </div>
+          </div> --}}
           <table class="table">
             <thead>
             <tr>

@@ -38,7 +38,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('index');
 Route::get('/todo/task_create/{folder_id}', [HomeController::class, 'todo_task_create'])->name('todo.task_create');
 Route::post('/todo/task_store/', [HomeController::class, 'todo_task_store'])->name('todo.task_store');
 Route::get('/todo/task_edit/{id}', [HomeController::class, 'todo_task_edit'])->name('todo.task_edit');
-// Route::post('/memo/update', [HomeController::class, 'memo_update'])->name('memo.update');
+Route::post('/todo/task_update/', [HomeController::class, 'todo_task_update'])->name('todo.task_update');
 
 Route::get('/todo/folder_create/', [HomeController::class, 'todo_folder_create'])->name('todo.folder_create');
 Route::get('/todo/folder_show/{folder}', [HomeController::class, 'todo_folder_show'])->name('todo.folder_show');

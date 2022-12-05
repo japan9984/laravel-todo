@@ -33,14 +33,16 @@
                                   <p>タイトル は必須入力です。</p>
                                   <p>期限日 は必須入力です。</p>
                               </div>
-                        <form action="http://intern-3.stg.commude.biz/folders/1/tasks/1/edit" method="POST">
-              <input type="hidden" name="_token" value="LDmFpir3LMnHmCLbjpI6ffaNDtM5ev1ag2ys3hVF">              <div class="form-group">
+              <form action="{{ route('todo.task_update') }}" method="POST">
+              @csrf
+                <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
+                <div class="form-group">
                 <label for="title">タイトル</label>
-                <input type="text" class="form-control" name="title" id="title" value="">
+                <input type="text" class="form-control" name="title" id="title" value="{{ $edit_memo['content'] }}">
               </div>
               <div class="form-group">
                 <label for="status">状態</label>
-                <select name="status" id="status" class="form-control">
+                <select name="status" id="status" class="form-control" value="{{ $edit_memo['status'] }}">
                                       <option value="1" selected="">
                       未着手
                     </option>
@@ -54,7 +56,7 @@
               </div>
               <div class="form-group">
                 <label for="deadline">期限</label>
-                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" required >
+                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" value="{{ $edit_memo['deadline'] }}" required >
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>

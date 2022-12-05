@@ -195,7 +195,7 @@ class HomeController extends Controller
         $posts = $request->all();
         // dd($posts);
         DB::transaction(function() use($posts){
-        $memo_id = Memo::insertGetId(['content' => $posts['title'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
+        $memo_id = Memo::insertGetId(['content' => $posts['title'],'status' => $posts['status'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
         $folder_id = $posts['folder_id'];
         MemoFolder::insert(['memo_id' => $memo_id, 'folder_id' => $folder_id]);
         });
@@ -218,13 +218,29 @@ class HomeController extends Controller
         ->get();
 
         $edit_memo = Memo::find($id);
+        // dd($edit_memo);
+        // $edit_memo = Memo::select('memos.*', 'tags.id AS tag_id')
+        // ->leftjoin('memo_tags' ,'memo_tags.memo_id', '=' , 'memos.id')
+        // ->leftjoin('tags' ,'memo_tags.tag_id', '=' , 'tags.id')
+        // ->where('memos.user_id', '=', \Auth::id())
+        // ->where('memos.id', '=', $id)
+        // ->whereNull('memos.deleted_at')
+        // ->get();
 
         return view('todo.8_task_edit',compact('memos','edit_memo'));
     }
 
     public function todo_folder_show(Folder $folder)
     {
-        // dd($folder->folder);
+        // $test_folder = Folder::select('folders.folder')
+        // ->get();
+        // $test_folder = Folder::where('user_id', 1)->get();
+        // dd($test_folder);
+
+        // $test_user_id = \Auth::id();
+        // $test_user_id = auth()->user()->id;
+        // dd($test_user_id);
+
         // $folder_id = $folder['id'] ;
         $memos_id = MemoFolder::where('folder_id', $folder['id'])->pluck('memo_id')->toArray();
         $memos = Memo::whereIn('id', $memos_id)->get();
@@ -252,5 +268,15 @@ class HomeController extends Controller
 
         return view('todo.folder_show',compact('memos', 'folders','folder_id'));
     }
+
+    public function todo_task_update(Request $request)
+    {
+        $posts = $request->all();
+        // dd($posts);
+        Memo::where('id', $posts['memo_id'])
+        ->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline']]);
+        return redirect( route('todo.folder_index') );
+    }
+
 
 }

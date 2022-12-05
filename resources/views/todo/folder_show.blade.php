@@ -37,12 +37,12 @@
               </a> --}}
               @foreach($folders as $folder)
               @if($folder['id'] === $folder_id)
-                  <a href="/folder/show/{{ $folder_id }}" class="list-group-item active">{{ $folder['folder'] }}</a>
+                  <a href="/todo/folder_show/{{ $folder['id'] }}" class="list-group-item active">{{ $folder['folder'] }}</a>
 
               {{-- <a href="/todo/folder_index/?folder={{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a> --}}
               {{-- <a href="{{ route('folder.show', $folder['id']) }}" class="col-8 mt-3 d-block">{{ $folder['folder'] }}</a> --}}
               @else
-              <a href="/folder/show/{{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a>
+                 <a href="/todo/folder_show/{{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a>
 
               @endif
               @endforeach
@@ -73,13 +73,23 @@
 
                 <tr>
                     <th>  <a href="/todo/task_edit/{{$memo['id']}}">{{ $memo['content'] }}   </a></th>
-                    <th>{{ $memo['status'] }}</th>
+                    <th>
+
+                      @if( $memo['status']  === 1)
+                        未着手
+                      @elseif( $memo['status']  == 2)
+                        着手中
+                      @else
+                        完了
+                      @endif
+
+                    </th>
                     <th>{{ $memo['deadline'] }}</th>
                     <th></th>
                 </tr>
 
             </div>
-            {{-- @endif --}}
+
             @endforeach
 
             </thead>
