@@ -236,7 +236,6 @@ class HomeController extends Controller
         ->get();
 
         $edit_memo = Memo::find($id);
-        // dd($edit_memo);
         // $edit_memo = Memo::select('memos.*', 'tags.id AS tag_id')
         // ->leftjoin('memo_tags' ,'memo_tags.memo_id', '=' , 'memos.id')
         // ->leftjoin('tags' ,'memo_tags.tag_id', '=' , 'tags.id')
