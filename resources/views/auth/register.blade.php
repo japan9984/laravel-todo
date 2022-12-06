@@ -104,21 +104,54 @@
         <nav class="panel panel-default">
           <div class="panel-heading">会員登録</div>
           <div class="panel-body">
-                          <div class="alert alert-danger">
-                                  <p>ユーザー名 は必須入力です。</p>
-                                  <p>メールアドレス は必須入力です。</p>
-                                  <p>パスワード は必須入力です。</p>
-                              </div>
+            @if($errors->has('email') && $errors->has('name') && $errors->has('password'))
+            <div class="alert alert-danger mb-0">
+                <p>ユーザー名 は必須入力です。</p>
+                <p>メールアドレス は必須入力です。</p>
+                <p>パスワード は必須入力です。</p>
+            </div>
+            @elseif($errors->has('email') && $errors->has('name'))
+            <div class="alert alert-danger mb-0">
+            <p>ユーザー名 は必須入力です。</p>
+            <p>メールアドレス は必須入力です。</p>
+            </div>
+            @elseif($errors->has('email') && $errors->has('password'))
+            <div class="alert alert-danger mb-0">
+            <p>メールアドレス は必須入力です。</p>
+            <p>パスワード は必須入力です。</p>
+            </div>
+            @elseif($errors->has('name') && $errors->has('password'))
+            <div class="alert alert-danger mb-0">
+            <p>ユーザー名 は必須入力です。</p>
+            <p>パスワード は必須入力です。</p>
+            </div>
+            @else
+            @error('name')
+            <div class="alert alert-danger mb-0">
+                <p>ユーザー名 は必須入力です。</p>
+            </div>
+            @enderror
+            @error('email')
+                <div class="alert alert-danger mb-0">
+                    <p>メールアドレス は必須入力です。</p>
+                </div>
+            @enderror
+            @error('password')
+                <div class="alert alert-danger mb-0">
+                    <p>パスワード は必須入力です。</p>
+                </div>
+            @enderror
+            @endif
              <form method="POST" action="{{ route('register') }}">
                 @csrf
               {{-- <input type="hidden" name="_token" value="LDRHeyJYemuzXpLylyuRRH0L3vbhLBJzqf3NNMYZ"> --}}
               <div class="form-group">
                 <label for="email">メールアドレス</label>
-                <input type="text" class="form-control" id="email" name="email" value="">
+                <input type="text" class="form-control" id="email" name="email"value="{{ old('email') }}">
               </div>
               <div class="form-group">
                 <label for="name">ユーザー名</label>
-                <input type="text" class="form-control" id="name" name="name" value="">
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
               </div>
               <div class="form-group">
                 <label for="password">パスワード</label>

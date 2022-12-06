@@ -11,30 +11,48 @@
 </head>
 <body>
 <header>
-  <nav class="my-navbar">
-    <a class="my-navbar-brand" href="https://intern-3.stg.commude.biz/">ToDo App</a>
-    <div class="my-navbar-control">
-              <span class="my-navbar-item">ようこそ, test999さん</span>
-        ｜
-        <a href="https://intern-3.stg.commude.biz/folders/1/tasks/create#" id="logout" class="my-navbar-item">ログアウト</a>
-        <form id="logout-form" action="http://intern-3.stg.commude.biz/logout" method="POST" style="display: none;">
-          <input type="hidden" name="_token" value="LDmFpir3LMnHmCLbjpI6ffaNDtM5ev1ag2ys3hVF">        </form>
-          </div>
-  </nav>
+    <nav class="my-navbar">
+        <a class="my-navbar-brand" href="/">ToDo App</a>
+        <div class="my-navbar-control">
+                  <span class="my-navbar-item">ようこそ,   {{ Auth::user()->name }}さん</span>
+            ｜
+            <a href="/" id="logout" class="my-navbar-item">ログアウト</a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+              </div>
+      </nav>
 </header>
 <main>
+
     <div class="container">
     <div class="row">
       <div class="col col-md-offset-3 col-md-6">
         <nav class="panel panel-default">
           <div class="panel-heading">タスクを追加する</div>
           <div class="panel-body">
-                          <div class="alert alert-danger">
-                                  <p>タイトル は必須入力です。</p>
-                                  <p>期限日 は必須入力です。</p>
-                              </div>
               <form action="{{ route('todo.task_store') }}" method="POST">
                 @csrf
+                @if($errors->has('title') && $errors->has('deadline'))
+
+                <div class="alert alert-danger mb-0">
+                    <p>タイトル は必須入力です。</p>
+                    <p>期限日 は必須入力です。</p>
+                </div>
+
+                @else
+                @error('title')
+                <div class="alert alert-danger mb-0">
+                    <p>タイトル は必須入力です。</p>
+                </div>
+                @enderror
+                @error('deadline')
+                    <div class="alert alert-danger mb-0">
+                    <p>期限日 は必須入力です。</p>
+                    </div>
+                @enderror
+                @endif
               <input type="hidden" name="status" value="1">
               <input type="hidden" value="{{ ($folder_id) }}" name="folder_id">
               <div class="form-group">
@@ -43,7 +61,7 @@
               </div>
               <div class="form-group">
                 <label for="deadline">期限</label>
-                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" required >
+                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline">
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>

@@ -11,16 +11,18 @@
 </head>
 <body>
 <header>
-  <nav class="my-navbar">
-    <a class="my-navbar-brand" href="https://intern-3.stg.commude.biz/">ToDo App</a>
-    <div class="my-navbar-control">
-              <span class="my-navbar-item">ようこそ, test999さん</span>
-        ｜
-        <a href="https://intern-3.stg.commude.biz/folders/1/tasks/1/edit#" id="logout" class="my-navbar-item">ログアウト</a>
-        <form id="logout-form" action="http://intern-3.stg.commude.biz/logout" method="POST" style="display: none;">
-          <input type="hidden" name="_token" value="LDmFpir3LMnHmCLbjpI6ffaNDtM5ev1ag2ys3hVF">        </form>
-          </div>
-  </nav>
+    <nav class="my-navbar">
+        <a class="my-navbar-brand" href="/">ToDo App</a>
+        <div class="my-navbar-control">
+                  <span class="my-navbar-item">ようこそ,   {{ Auth::user()->name }}さん</span>
+            ｜
+            <a href="/" id="logout" class="my-navbar-item">ログアウト</a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+              </div>
+      </nav>
 </header>
 <main>
     <div class="container">
@@ -29,10 +31,25 @@
         <nav class="panel panel-default">
           <div class="panel-heading">タスクを編集する</div>
           <div class="panel-body">
-                          <div class="alert alert-danger">
-                                  <p>タイトル は必須入力です。</p>
-                                  <p>期限日 は必須入力です。</p>
-                              </div>
+            @if($errors->has('title') && $errors->has('deadline'))
+
+            <div class="alert alert-danger mb-0">
+                <p>タイトル は必須入力です。</p>
+                <p>期限日 は必須入力です。</p>
+            </div>
+
+            @else
+            @error('title')
+            <div class="alert alert-danger mb-0">
+                <p>タイトル は必須入力です。</p>
+            </div>
+            @enderror
+            @error('deadline')
+                <div class="alert alert-danger mb-0">
+                <p>期限日 は必須入力です。</p>
+                </div>
+            @enderror
+            @endif
               <form action="{{ route('todo.task_update') }}" method="POST">
               @csrf
                 <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />

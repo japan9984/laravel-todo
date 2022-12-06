@@ -9,16 +9,18 @@
 </head>
 <body>
 <header>
-  <nav class="my-navbar">
-    <a class="my-navbar-brand" href="https://intern-3.stg.commude.biz/">ToDo App</a>
-    <div class="my-navbar-control">
-              <span class="my-navbar-item">ようこそ, test999さん</span>
-        ｜
-        <a href="https://intern-3.stg.commude.biz/folders/1/tasks#" id="logout" class="my-navbar-item">ログアウト</a>
-        <form id="logout-form" action="http://intern-3.stg.commude.biz/logout" method="POST" style="display: none;">
-          <input type="hidden" name="_token" value="LDmFpir3LMnHmCLbjpI6ffaNDtM5ev1ag2ys3hVF">        </form>
-          </div>
-  </nav>
+    <nav class="my-navbar">
+        <a class="my-navbar-brand" href="/">ToDo App</a>
+        <div class="my-navbar-control">
+                  <span class="my-navbar-item">ようこそ,   {{ Auth::user()->name }}さん</span>
+            ｜
+            <a href="/" id="logout" class="my-navbar-item">ログアウト</a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+              </div>
+      </nav>
 </header>
 <main>
     <div class="container">
@@ -67,7 +69,17 @@
 
                 <tr>
                     <th>  <a href="/todo/task_edit/{{$memo['id']}}">{{ $memo['content'] }}   </a></th>
-                    <th>{{ $memo['status'] }}</th>
+                    <th>
+
+                        @if( $memo['status']  === 1)
+                          未着手
+                        @elseif( $memo['status']  == 2)
+                          着手中
+                        @else
+                          完了
+                        @endif
+
+                      </th>
                     <th>{{ $memo['deadline'] }}</th>
                     <th></th>
                 </tr>

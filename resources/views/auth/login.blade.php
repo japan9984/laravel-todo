@@ -72,7 +72,7 @@
 <body>
 <header>
   <nav class="my-navbar">
-    <a class="my-navbar-brand" href="https://intern-3.stg.commude.biz/">ToDo App</a>
+    <a class="my-navbar-brand" href="/">ToDo App</a>
     <div class="my-navbar-control">
               <a class="my-navbar-item" href="{{ route('login') }}">ログイン</a>
         ｜
@@ -87,12 +87,28 @@
         <nav class="panel panel-default">
           <div class="panel-heading">ログイン</div>
           <div class="panel-body">
-                          <div class="alert alert-danger">
-                                  <p>メールアドレス は必須入力です。</p>
-                                  <p>パスワード は必須入力です。</p>
-                              </div>
-                              <form method="POST" action="{{ route('login') }}">
-                                @csrf
+            @if($errors->has('email') && $errors->has('password'))
+
+            <div class="alert alert-danger mb-0">
+                <p>メールアドレス は必須入力です。</p>
+                <p>パスワード は必須入力です。</p>
+            </div>
+
+            @else
+            @error('email')
+            <div class="alert alert-danger mb-0">
+                <p>メールアドレス は必須入力です。</p>
+            </div>
+            @enderror
+            @error('password')
+                <div class="alert alert-danger mb-0">
+                    <p>パスワード は必須入力です。</p>
+                </div>
+            @enderror
+            @endif
+
+            <form method="POST" action="{{ route('login') }}">
+            @csrf
               <div class="form-group">
                 <label for="email">メールアドレス</label>
                 <input type="text" class="form-control" id="email" name="email" value="">
@@ -108,7 +124,7 @@
           </div>
         </nav>
         <div class="text-center">
-          <a href="http://intern-3.stg.commude.biz/password/reset">パスワードの変更はこちらから</a>
+          <a href="{{ route('password.request') }}">パスワードの変更はこちらから</a>
         </div>
       </div>
     </div>

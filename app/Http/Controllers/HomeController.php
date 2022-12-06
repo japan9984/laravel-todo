@@ -55,6 +55,10 @@ class HomeController extends Controller
 
     public function memo_create(Request $request)
     {
+        $user = auth()->user();
+        dd($user);
+        $folders = $user->folders;
+
         // $posts = $request->all();
         $folder_id_n = $request->folder_id;
         return view('memo.create', compact('folder_id_n'));
@@ -152,6 +156,7 @@ class HomeController extends Controller
     public function todo_folder_store(Request $request)
     {
         $posts = $request->all();
+        $request->validate([ 'title' => 'required']);
         Folder::insert(['folder' => $posts['title'],'user_id'=>\Auth::id()]);
         // DB::transaction(function() use($posts){
         //     $folder_id = Folder::insertGetId(['folder' => $posts['folder'],'user_id'=>\Auth::id()]);
@@ -164,12 +169,19 @@ class HomeController extends Controller
         $query_folder = \Request::query('folder');
 
         $memos = Memo::select('memos.*')
-        ->leftJoin('memo_folders', 'memo_folders.memo_id', '=', 'memos.id')
-        ->where('memo_folders.folder_id', '=', $query_folder)
+        // ->leftJoin('memo_folders', 'memo_folders.memo_id', '=', 'memos.id')
+        // ->where('memo_folders.folder_id', '=', $query_folder)
         ->where('user_id', '=', \Auth::id())
         ->whereNull('deleted_at')
         ->orderBy('updated_at', 'DESC')
         ->get();
+        // $memos = Memo::select('memos.*')
+        // ->leftJoin('memo_folders', 'memo_folders.memo_id', '=', 'memos.id')
+        // ->where('memo_folders.folder_id', '=', $query_folder)
+        // ->where('user_id', '=', \Auth::id())
+        // ->whereNull('deleted_at')
+        // ->orderBy('updated_at', 'DESC')
+        // ->get();
 
         $folders = Folder::select('folders.*')
         ->where('user_id', '=', \Auth::id())
@@ -186,27 +198,33 @@ class HomeController extends Controller
         // dd($request->folder_id);
     //     dd($folder_id);
     //    $folder_id_n = $request->folder_id;
+
         return view('todo.7_task_create', compact('folder_id'));
     }
 
     public function todo_task_store(Request $request)
     {
+
         // $request->validate(['content' => 'reqired']);
         $posts = $request->all();
+        $request->validate([ 'title' => 'required' , 'deadline' => 'required' ]);
         // dd($posts);
-        DB::transaction(function() use($posts){
+        // DB::transaction(function() use($posts){
         $memo_id = Memo::insertGetId(['content' => $posts['title'],'status' => $posts['status'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
         $folder_id = $posts['folder_id'];
         MemoFolder::insert(['memo_id' => $memo_id, 'folder_id' => $folder_id]);
-        });
+        // });
 
         // $folders = Folder::where('user_id', '=', '\Auth::id()')
         // ->whereNull('deleted_at')
         // ->orderBy('id', 'DESC')
         // ->get();
+        // $folder_id = $posts['folder_id'];
+        // dd($folder_id);
 
         // Memo::insert(['content' => $posts['content'],'deadline' => $posts['deadline'],'user_id'=>\Auth::id()]);
-        return redirect( route('todo.folder_index') );
+        return redirect( route('todo.folder_index'));
+        // return redirect( '/todo/folder_show/{ $folder_id }');
     }
 
     public function todo_task_edit($id)
@@ -272,6 +290,7 @@ class HomeController extends Controller
     public function todo_task_update(Request $request)
     {
         $posts = $request->all();
+        $request->validate([ 'title' => 'required' , 'deadline' => 'required' ]);
         // dd($posts);
         Memo::where('id', $posts['memo_id'])
         ->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline']]);
