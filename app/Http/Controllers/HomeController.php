@@ -158,9 +158,10 @@ class HomeController extends Controller
         $request->validate([ 'title' => 'required']);
         Folder::insert(['folder' => $posts['title'],'user_id'=>\Auth::id()]);
         // DB::transaction(function() use($posts){
-        //     $folder_id = Folder::insertGetId(['folder' => $posts['folder'],'user_id'=>\Auth::id()]);
-        // });
-        return redirect( route('todo.folder_index') );
+        $folder_id = Folder::max('id');
+            // });
+        // dd($folder_id);
+        return redirect()->route('todo.folder_show', $folder_id);
     }
 
     public function todo_folder_index()
@@ -274,7 +275,9 @@ class HomeController extends Controller
         // $memos_id = MemoFolder::where('folder_id', $folder['id'])->pluck('memo_id')->toArray();
         // $memos_id = Folder::where('id', $folder['id']);
         // dd($folder->id);
-        $memos = Memo::where('folder_id', $folder->id)->get();
+        $memos = Memo::where('folder_id', $folder->id)
+        ->where('user_id',  \Auth::id())
+        ->get();
         // dd($memos);
 
 
