@@ -34,12 +34,17 @@
             </a>
           </div>
           <div class="list-group">
-             {{-- <a href="" class="list-group-item active">
-                test
-              </a> --}}
+            <a href="{{ route('todo.folder_index') }}" class="list-group-item">全て</a>
               @foreach($folders as $folder)
               @if($folder['id'] === $folder_id)
-                  <a href="/todo/folder_show/{{ $folder['id'] }}" class="list-group-item active">{{ $folder['folder'] }}</a>
+              {{-- <div style="display: flex; justify-content:space-between; backgroud-color: rgb(79, 193, 233);"> --}}
+                <div class="list-group-item" style="background-color: rgb(79, 193, 233); display: flex; justify-content: space-between; padding: 0;">
+                      <a href="/todo/folder_show/{{ $folder['id'] }}" style="color: #fff; padding: 10px 15px;">{{ $folder['folder'] }}</a>
+                      <a href="/todo/folder_edit/{{ $folder['id'] }}" style="color: #fff; background-color: red; padding: 10px 15px;">編集しちゃう</a>
+                </div>
+
+                  {{-- <a href="/todo/folder_edit/{{ $folder['id'] }}" class="list-group-item">編集する</a> --}}
+              {{-- </div> --}}
 
               {{-- <a href="/todo/folder_index/?folder={{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a> --}}
               {{-- <a href="{{ route('folder.show', $folder['id']) }}" class="col-8 mt-3 d-block">{{ $folder['folder'] }}</a> --}}
@@ -70,7 +75,6 @@
               <th></th>
             </tr>
             @foreach($memos as $memo)
-            {{-- @if($folder['id'] === $folder_id) --}}
             <div class="d-block row mt-3 ">
 
                 <tr>

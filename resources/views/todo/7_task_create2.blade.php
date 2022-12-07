@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)https://intern-3.stg.commude.biz/folders/1/tasks/1/edit -->
+<!-- saved from url=(0055)https://intern-3.stg.commude.biz/folders/1/tasks/create -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>ToDo App</title>
-    <link rel="stylesheet" href="{{ asset('/css/8_task_edit_files/flatpickr.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('/css/8_task_edit_files/material_blue.css') }}">
-  <link rel="stylesheet" href="{{ asset('/css/8_task_edit_files/styles.css') }}">
-  <script src="https://kit.fontawesome.com/db3e6d0096.js" crossorigin="anonymous"></script>
-  <script src="/js/confirm.js"></script>
+    <link rel="stylesheet" href="{{ asset('/css/7_task_create_files/flatpickr.min.css') }}">
+<link rel="stylesheet" href=".{{ asset('/css/7_task_create_files/material_blue.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/7_task_create_files/styles.css') }}">
 </head>
 <body>
 <header>
@@ -27,63 +25,44 @@
       </nav>
 </header>
 <main>
+
     <div class="container">
     <div class="row">
       <div class="col col-md-offset-3 col-md-6">
         <nav class="panel panel-default">
-          <div class="panel-heading " style="display:flex; justify-content: space-between;">
-            <div>タスクを編集する</div>
-            <form id="delete-form" action="{{ route('todo.task_destory')}}" method="POST">
-                @csrf
-                <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
-                <i class="fa-solid fa-trash mr-3" onclick="deleteHandle(event);"></i>
-            </form>
-          </div>
+          <div class="panel-heading">タスクを追加する</div>
           <div class="panel-body">
-            @if($errors->has('title') && $errors->has('deadline'))
+              <form action="{{ route('todo.task_store') }}" method="POST">
+                @csrf
+                @if($errors->has('title') && $errors->has('deadline'))
 
-            <div class="alert alert-danger mb-0">
-                <p>タイトル は必須入力です。</p>
-                <p>期限日 は必須入力です。</p>
-            </div>
-
-            @else
-            @error('title')
-            <div class="alert alert-danger mb-0">
-                <p>タイトル は必須入力です。</p>
-            </div>
-            @enderror
-            @error('deadline')
                 <div class="alert alert-danger mb-0">
-                <p>期限日 は必須入力です。</p>
+                    <p>タイトル は必須入力です。</p>
+                    <p>期限日 は必須入力です。</p>
                 </div>
-            @enderror
-            @endif
 
-              <form action="{{ route('todo.task_update') }}" method="POST">
-              @csrf
-                <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
-                <div class="form-group">
-                <label for="title">タイトル</label>
-                <input type="text" class="form-control" name="title" id="title" value="{{ $edit_memo['content'] }}">
-              </div>
+                @else
+                @error('title')
+                <div class="alert alert-danger mb-0">
+                    <p>タイトル は必須入力です。</p>
+                </div>
+                @enderror
+                @error('deadline')
+                    <div class="alert alert-danger mb-0">
+                    <p>期限日 は必須入力です。</p>
+                    </div>
+                @enderror
+                @endif
+              <input type="hidden" name="status" value="1">
+              {{ dd($folder;) }}
+              <input type="hidden" value="{{ ($folder) }}" name="folder_id">
               <div class="form-group">
-                <label for="status">状態</label>
-                <select name="status" id="status" class="form-control" value="{{ $edit_memo['status'] }}">
-                                      <option value="1" selected="">
-                      未着手
-                    </option>
-                                      <option value="2">
-                      着手中
-                    </option>
-                                      <option value="3">
-                      完了
-                    </option>
-                                  </select>
+                <label for="title">タイトル</label>
+                <input type="text" class="form-control" name="title" id="title" value="">
               </div>
               <div class="form-group">
                 <label for="deadline">期限</label>
-                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" value="{{ $edit_memo['deadline'] }}" required >
+                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline">
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>
@@ -101,8 +80,8 @@
       document.getElementById('logout-form').submit();
     });
   </script>
-  <script src="{{ asset('/js/8_task_edit_files/flatpickr.min.js') }}"></script>
-<script src="{{ asset('/js/8_task_edit_files/ja.js') }}"></script>
+  <script src="{{ asset('/css/7_task_create_files/flatpickr.min.js') }}"></script>
+<script src="{{ asset('/css/7_task_create_files/ja.js') }}"></script>
 <script>
   flatpickr(document.getElementById('due_date'), {
     locale: 'ja',

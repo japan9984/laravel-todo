@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('memos', function (Blueprint $table) {
             $table->unsignedBigInteger('id',true);
+            $table->unsignedBigInteger('folder_id');
             $table->unsignedBigInteger('status');
             $table->longText('content');
             $table->unsignedBigInteger('user_id');
