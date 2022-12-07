@@ -37,10 +37,7 @@
           <div class="list-group">
             <a href="{{ route('todo.folder_index') }}" class="list-group-item active">全て</a>
               @foreach($folders as $folder)
-              {{-- {{ dd($folder['id']); }} --}}
-              {{-- <a href="/todo/folder_index/?folder={{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a> --}}
-
-              <a href="{{ route('todo.folder_show', $folder['id']) }}" class="list-group-item ">{{ $folder['folder'] }}</a>
+          <a href="{{ route('todo.folder_show', $folder['id']) }}" class="list-group-item ">{{ $folder['folder'] }}</a>
 
               @endforeach
             </div>
@@ -49,13 +46,6 @@
       <div class="column col-md-8">
         <div class="panel panel-default">
           <div class="panel-heading">タスク</div>
-          {{-- <div class="panel-body">
-            <div class="text-right">
-              <a href="/todo/task_create/{{ request()->folder }} " class="btn btn-default btn-block">
-                タスクを追加する
-              </a>
-            </div>
-          </div> --}}
           <table class="table">
             <thead>
             <tr>

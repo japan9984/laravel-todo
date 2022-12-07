@@ -36,21 +36,13 @@
           <div class="list-group">
             <a href="{{ route('todo.folder_index') }}" class="list-group-item">全て</a>
               @foreach($folders as $folder)
-              @if($folder['id'] === $folder_id)
-              {{-- <div style="display: flex; justify-content:space-between; backgroud-color: rgb(79, 193, 233);"> --}}
+              @if($folder->id === $target->id)
                 <div class="list-group-item" style="background-color: rgb(79, 193, 233); display: flex; justify-content: space-between; padding: 0;">
                       <a href="/todo/folder_show/{{ $folder['id'] }}" style="color: #fff; padding: 10px 15px;">{{ $folder['folder'] }}</a>
                       <a href="/todo/folder_edit/{{ $folder['id'] }}" style="color: #fff; background-color: red; padding: 10px 15px;">編集しちゃう</a>
                 </div>
-
-                  {{-- <a href="/todo/folder_edit/{{ $folder['id'] }}" class="list-group-item">編集する</a> --}}
-              {{-- </div> --}}
-
-              {{-- <a href="/todo/folder_index/?folder={{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a> --}}
-              {{-- <a href="{{ route('folder.show', $folder['id']) }}" class="col-8 mt-3 d-block">{{ $folder['folder'] }}</a> --}}
               @else
                  <a href="/todo/folder_show/{{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a>
-
               @endif
               @endforeach
                       </div>
@@ -61,7 +53,7 @@
           <div class="panel-heading">タスク</div>
           <div class="panel-body">
             <div class="text-right">
-                <a href="/todo/task_create/{{ $folder_id }}" class="btn btn-default btn-block">
+                {{-- <a href="/todo/task_create/{{ $folder_id }}" class="btn btn-default btn-block"> --}}
                 タスクを追加する
               </a>
             </div>
@@ -74,7 +66,8 @@
               <th>期限</th>
               <th></th>
             </tr>
-            @foreach($memos as $memo)
+
+            @foreach($target->memo as $memo)
             <div class="d-block row mt-3 ">
 
                 <tr>

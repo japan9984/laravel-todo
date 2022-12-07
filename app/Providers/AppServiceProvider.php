@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Memo;
 use App\Models\Folder;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,11 +26,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function($view){
-        $folders = Folder::where('user_id', '=', \Auth::id())
-        ->whereNull('deleted_at')
-        ->orderBy('id', 'DESC')
-        ->get();
-        $view->with('folders', $folders);
+
+            $memo_model = new Memo();
+            $memos = $memo_model->getMyMemo();
+
+            $folder_model = new Folder();
+            $folders = $folder_model->getMyFolder();
+
+
+            $view->with('memos', $memos)->with('folders', $folders);
         });
     }
 }
