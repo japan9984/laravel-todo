@@ -62,6 +62,7 @@
 
               <form action="{{ route('todo.task_update') }}" method="POST">
               @csrf
+                <input type="hidden" name="folder_id" value="{{ $edit_memo->folder_id }}" />
                 <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
                 <div class="form-group">
                 <label for="title">タイトル</label>
