@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
+// Route::group(['middleware' => 'user-guard'], function () {
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
 
@@ -36,4 +36,4 @@ Route::post('/todo/folder_store/', [FolderController::class, 'store'])->name('to
 Route::get('/todo/folder_edit/{folder}', [FolderController::class, 'edit'])->name('todo.folder_edit')->middleware('user.edit');
 Route::post('/todo/folder_update/', [FolderController::class, 'update'])->name('todo.folder_update');
 Route::post('/todo/folder_destory/', [FolderController::class, 'destory'])->name('todo.folder_destory');
-});
+// });
