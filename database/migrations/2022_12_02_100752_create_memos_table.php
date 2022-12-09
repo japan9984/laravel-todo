@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('folder_id');
             $table->unsignedBigInteger('status');
             $table->longText('content');
+            $table->string('file_path')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->date('deadline');
             $table->softDeletes();

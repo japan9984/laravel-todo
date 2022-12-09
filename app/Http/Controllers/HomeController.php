@@ -8,8 +8,8 @@ use Illuminate\Mail\Mailables\Content;
 use App\Models\Memo;
 use App\Models\Folder;
 use App\Models\MemoFolder;
-use DB;
 use Illuminate\Auth\Events\Validated;
+use DB;
 
 class HomeController extends Controller
 {

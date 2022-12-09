@@ -32,7 +32,7 @@
         <nav class="panel panel-default">
           <div class="panel-heading">タスクを追加する</div>
           <div class="panel-body">
-              <form action="{{ route('todo.task_store') }}" method="POST">
+              <form action="{{ route('todo.task_store') }}" method="POST"  enctype='multipart/form-data'>
                 @csrf
                 @if($errors->has('title') && $errors->has('deadline'))
 
@@ -53,12 +53,18 @@
                     </div>
                 @enderror
                 @endif
+
               <input type="hidden" name="status" value="1">
               <input type="hidden" value="{{ ($folder_id) }}" name="folder_id">
               <div class="form-group">
                 <label for="title">タイトル</label>
                 <input type="text" class="form-control" name="title" id="title" value="">
               </div>
+              <div class="form-group">
+                <label for="image">画像</label>
+                <input id="image" type="file" name="image" style="margin-bottom: 10px;">
+              </div>
+
               <div class="form-group">
                 <label for="deadline">期限</label>
                 <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline">

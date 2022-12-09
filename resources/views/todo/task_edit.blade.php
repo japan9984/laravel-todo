@@ -33,6 +33,7 @@
         <nav class="panel panel-default">
           <div class="panel-heading " style="display:flex; justify-content: space-between;">
             <div>タスクを編集する</div>
+
             <form id="delete-form" action="{{ route('todo.task_destory')}}" method="POST">
                 @csrf
                 <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
@@ -40,28 +41,32 @@
             </form>
           </div>
           <div class="panel-body">
-            @if($errors->has('title') && $errors->has('deadline'))
+              @if($errors->has('title') && $errors->has('deadline'))
 
-            <div class="alert alert-danger mb-0">
-                <p>タイトル は必須入力です。</p>
-                <p>期限日 は必須入力です。</p>
-            </div>
-
-            @else
-            @error('title')
-            <div class="alert alert-danger mb-0">
-                <p>タイトル は必須入力です。</p>
-            </div>
-            @enderror
-            @error('deadline')
-                <div class="alert alert-danger mb-0">
-                <p>期限日 は必須入力です。</p>
+              <div class="alert alert-danger mb-0">
+                  <p>タイトル は必須入力です。</p>
+                  <p>期限日 は必須入力です。</p>
                 </div>
-            @enderror
-            @endif
 
-              <form action="{{ route('todo.task_update') }}" method="POST">
-              @csrf
+                @else
+                @error('title')
+                <div class="alert alert-danger mb-0">
+                    <p>タイトル は必須入力です。</p>
+                </div>
+                @enderror
+                @error('deadline')
+                <div class="alert alert-danger mb-0">
+                    <p>期限日 は必須入力です。</p>
+                </div>
+                @enderror
+                @endif
+
+                <form action="{{ route('todo.task_update') }}" method="POST" enctype='multipart/form-data'>
+                    @csrf
+
+                    <img src="{{asset($file_path)}}" alt="error" style="max-width: 100%;">
+                    <input type="file" name="image" style="margin:10px auto 20px 0;">
+
                 <input type="hidden" name="folder_id" value="{{ $edit_memo->folder_id }}" />
                 <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
                 <div class="form-group">
