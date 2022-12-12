@@ -38,8 +38,8 @@ class MemoController extends Controller
 
         $name = auth()->user()->name;
         $email = auth()->user()->email;
-
         Mail::send(new MemoAddMail($name, $email));
+        
         return redirect()->route('folder.show', $folder);
     }
 
