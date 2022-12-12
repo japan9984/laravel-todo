@@ -42,4 +42,5 @@ class HomeController extends Controller
         ->get();
         return view('folder.top', compact('folders'));
     }
+
 }

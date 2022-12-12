@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::post('sample', 'FormController@postValidates');
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
 

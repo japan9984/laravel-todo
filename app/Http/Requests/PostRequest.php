@@ -25,7 +25,7 @@ class PostRequest extends FormRequest
     {
         return [
             'title' => 'required' ,
-            'deadline' => 'required' 
+            'deadline' => 'required'
         ];
     }
 

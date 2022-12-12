@@ -17,10 +17,10 @@ class CheckEditMemoUser
     public function handle(Request $request, Closure $next)
     {
         $user_memo = $request->route()->parameter('memo');
-        if(empty($user_memo)){
+        if (empty($user_memo)) {
             return \App::abort(404);
-        }else{
-           if(auth()->id() !== $user_memo->user_id){
+        } else {
+            if (auth()->id() !== $user_memo->user_id) {
                 return \App::abort(404);
             }
         }

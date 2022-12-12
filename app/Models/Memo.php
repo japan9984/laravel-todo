@@ -11,9 +11,10 @@ class Memo extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function getMyMemo(){
+    public function getMyMemo()
+    {
         $user_id = auth()->id();
-        $memos = Memo::where('user_id',  $user_id)
+        $memos = Memo::where('user_id', $user_id)
         ->orderBy('updated_at', 'DESC')
         ->get();
         return $memos;

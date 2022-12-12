@@ -11,7 +11,8 @@ class Folder extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function getMyFolder(){
+    public function getMyFolder()
+    {
         $user_id = auth()->id();
         $folders = Folder::where('user_id', $user_id)
         ->orderBy('id', 'DESC')
@@ -32,5 +33,4 @@ class Folder extends Model
     protected $fillable = [
         'folder', 'user_id'
     ];
-
 }

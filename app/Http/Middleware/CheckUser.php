@@ -19,12 +19,12 @@ class CheckUser
     public function handle(Request $request, Closure $next)
     {
         $user_sort = $request->route()->parameter('folder');
-        if(empty($user_sort)){
+        if (empty($user_sort)) {
             return \App::abort(404);
-        }else{
+        } else {
             if (auth()->id() !==  $user_sort->user_id) {
                 return \App::abort(404);
-        }
+            }
         }
         return $next($request);
     }

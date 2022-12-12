@@ -20,9 +20,9 @@ class CheckEditUser
     {
         $user_sort = $request->route()->parameter('folder');
         $edit_folder = Folder::find($user_sort);
-        if(empty($edit_folder)){
+        if (empty($edit_folder)) {
             return \App::abort(404);
-        }else{
+        } else {
             if (auth()->id() !== $edit_folder->user_id) {
                 return \App::abort(404);
             }
