@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)https://intern-3.stg.commude.biz/folders/1/tasks/1/edit -->
+<!-- saved from url=(0055)https://intern-3.stg.commude.biz/folders/1/tasks/create -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>ToDo App</title>
-    <link rel="stylesheet" href="{{ asset('/css/8_task_edit_files/flatpickr.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('/css/8_task_edit_files/material_blue.css') }}">
-  <link rel="stylesheet" href="{{ asset('/css/8_task_edit_files/styles.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/7_task_create_files/flatpickr.min.css') }}">
+  <link rel="stylesheet" href=".{{ asset('/css/7_task_create_files/material_blue.css') }}">
+  <link rel="stylesheet" href="{{ asset('/css/7_task_create_files/styles.css') }}">
   <script src="https://kit.fontawesome.com/db3e6d0096.js" crossorigin="anonymous"></script>
   <script src="/js/confirm.js"></script>
 </head>
-<body style="background-image: url('{{ asset($bg_path ) }}')">
+<body>
 <header>
     <nav class="my-navbar">
         <a class="my-navbar-brand" href="/">ToDo App</a>
@@ -27,31 +27,27 @@
               </div>
       </nav>
 </header>
+
 <main>
     <div class="container">
     <div class="row">
       <div class="col col-md-offset-3 col-md-6">
         <nav class="panel panel-default">
-          <div class="panel-heading " style="display:flex; justify-content: space-between;">
-            <div>フォルダーを編集する</div>
-            <form id="delete-form_folder" action="{{ route('folder.destory', $edit_folder->id)}}" method="POST">
+          <div class="panel-heading " style="display:flex; justify-content: space-between;">背景画像を変更
+          <form id="delete-form" action="{{ route('bg.destory')}}" method="POST">
+            @csrf
+            <i class="fa-solid fa-trash mr-3" onclick="deleteHandle(event);"></i>
+        </form>
+    </div>
+    <div class="panel-body">
+              @if($bg_path !== 'null')
+              <img src="{{asset($bg_path)}}" style="max-width: 100%;">
+              @endif
+              <form action="{{ route('bg.store') }}" method="POST"  enctype='multipart/form-data'>
                 @csrf
-                <input type="hidden" name="folder_id" value="{{ $edit_folder['id'] }}" />
-                <i class="fa-solid fa-trash mr-3" onclick="deleteHandle_folder(event);"></i>
-            </form>
-          </div>
-          <div class="panel-body">
-            @error('title')
-                          <div class="alert alert-danger">
-                                  <p>フォルダ名 は必須入力です。</p>
-                              </div>
-            @enderror
-                        <form action="{{ route('folder.update', $edit_folder->id) }}" method="post">
-                            @csrf
-                            <input type="hidden" name="folder_id" value="{{ $edit_folder['id'] }}" />
-                 <div class="form-group">
-                <label for="title">フォルダ名</label>
-                <input type="text" class="form-control" name="title" id="title" value="{{ $edit_folder['folder'] }}">
+              <div class="form-group">
+                <label for="bgimage"></label>
+                <input id="bgimage" type="file" name="bgimage" style="margin-bottom: 10px;">
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>
@@ -69,8 +65,8 @@
       document.getElementById('logout-form').submit();
     });
   </script>
-  <script src="{{ asset('/js/8_task_edit_files/flatpickr.min.js') }}"></script>
-<script src="{{ asset('/js/8_task_edit_files/ja.js') }}"></script>
+  <script src="{{ asset('/css/7_task_create_files/flatpickr.min.js') }}"></script>
+<script src="{{ asset('/css/7_task_create_files/ja.js') }}"></script>
 <script>
   flatpickr(document.getElementById('due_date'), {
     locale: 'ja',

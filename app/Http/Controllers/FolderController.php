@@ -13,14 +13,15 @@ class FolderController extends Controller
 {
     public function index()
     {
-        return view( 'folder.index', );
+
+        return view( 'folder.index');
     }
 
     public function show(Folder $folder)
     {
         $user_id = auth()->id();
         $target = $folder;
-        return view('folder.show', compact('target'));
+        return view('folder.show', compact('target' ));
     }
 
     public function create()

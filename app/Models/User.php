@@ -46,4 +46,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Folder');
     }
+    public function bg()
+    {
+        return $this->hasOne('App\Models\Bg');
+    }
 }

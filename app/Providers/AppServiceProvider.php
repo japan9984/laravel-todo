@@ -33,8 +33,10 @@ class AppServiceProvider extends ServiceProvider
             $folder_model = new Folder();
             $folders = $folder_model->getMyFolder();
 
+            $bg_path = auth()->user()->bg_path;
 
-            $view->with('memos', $memos)->with('folders', $folders);
+
+            $view->with('memos', $memos)->with('folders', $folders)->with('bg_path', $bg_path);
         });
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemoController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\BgController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -24,6 +25,12 @@ Route::post('sample', 'FormController@postValidates');
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
+
+Route::group(['prefix' => 'bg','as' => 'bg.'],function(){
+    Route::get('create/', [BgController::class, 'create'])->name('create');
+    Route::post('store/', [BgController::class, 'store'])->name('store');
+    Route::post('destory/', [BgController::class, 'destory'])->name('destory');
+});
 
 Route::group(['prefix' => 'memo','as' => 'memo.'],function(){
     Route::get('create/folder/{folder}', [MemoController::class, 'create'])->name('create');

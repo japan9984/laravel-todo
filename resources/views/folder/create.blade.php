@@ -7,11 +7,12 @@
   <title>ToDo App</title>
     <link rel="stylesheet" href="{{ asset('css/5_folder_Create_files/styles.css') }}">
 </head>
-<body>
+<body style="background-image: url('{{ asset($bg_path ) }}')">
 <header>
     <nav class="my-navbar">
         <a class="my-navbar-brand" href="/">ToDo App</a>
         <div class="my-navbar-control">
+            <a class="my-navbar-item" style="background-color: yellow; color: #333; padding: 10px;" href="{{ route('bg.create') }}">背景画像設定</a>
                   <span class="my-navbar-item">ようこそ,   {{ Auth::user()->name }}さん</span>
             ｜
             <a href="/" id="logout" class="my-navbar-item">ログアウト</a>
