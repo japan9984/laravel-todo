@@ -32,7 +32,7 @@
           </div>
           <div class="panel-body">
             <div class="text-center">
-              <a href="{{ route('todo.folder_create') }}" class="btn btn-primary">
+              <a href="{{ route('folder.create') }}" class="btn btn-primary">
                 フォルダ作成ページへ
               </a>
             </div>

@@ -32,7 +32,7 @@
         <nav class="panel panel-default">
           <div class="panel-heading">タスクを追加する</div>
           <div class="panel-body">
-              <form action="{{ route('todo.task_store', $folder) }}" method="POST"  enctype='multipart/form-data'>
+              <form action="{{ route('memo.store', $folder) }}" method="POST"  enctype='multipart/form-data'>
                 @csrf
                 @if($errors->has('title') && $errors->has('deadline'))
 

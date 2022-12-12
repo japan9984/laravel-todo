@@ -30,14 +30,14 @@
           <div class="panel-heading">フォルダ</div>
 
           <div class="panel-body">
-            <a href="{{ route('todo.folder_create') }}" class="btn btn-default btn-block">
+            <a href="{{ route('folder.create') }}" class="btn btn-default btn-block">
               フォルダを追加する
             </a>
           </div>
           <div class="list-group">
-            <a href="{{ route('todo.folder_index') }}" class="list-group-item active">全て</a>
+            <a href="{{ route('folder.index') }}" class="list-group-item active">全て</a>
               @foreach($folders as $folder)
-          <a href="{{ route('todo.folder_show', $folder['id']) }}" class="list-group-item ">{{ $folder['folder'] }}</a>
+          <a href="{{ route('folder.show', $folder['id']) }}" class="list-group-item ">{{ $folder['folder'] }}</a>
 
               @endforeach
             </div>
@@ -58,7 +58,7 @@
             <div class="d-block row mt-3 ">
 
                 <tr>
-                    <th>  <a href="/todo/task_edit/{{$memo['id']}}">{{ $memo['content'] }}   </a></th>
+                    <th>  <a href="{{ route('memo.edit', $memo['id']) }}">{{ $memo['content'] }}   </a></th>
                     <th>
 
                         @if( $memo['status']  === 1)

@@ -34,7 +34,7 @@
                                   <p>フォルダ名 は必須入力です。</p>
                               </div>
             @enderror
-                        <form action="{{ route('todo.folder_store') }}" method="post">
+                        <form action="{{ route('folder.store') }}" method="post">
                             @csrf
                  <div class="form-group">
                 <label for="title">フォルダ名</label>

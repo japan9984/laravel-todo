@@ -18,11 +18,21 @@ class MemoAddMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($name, $email)
     {
-        //
+        $this->name = $name;
+        $this->email = $email;
     }
-
+    public function build()
+    {
+        return $this->to($this->email)
+            ->from('admin@test.com')
+            ->subject('テストタイトル')
+            ->view('posts.mail')
+            ->with([
+                'name' => $this->name,
+            ]);
+    }
     /**
      * Get the message envelope.
      *
@@ -40,12 +50,12 @@ class MemoAddMail extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content()
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
+    // public function content()
+    // {
+    //     return new Content(
+    //         view: 'posts.mail',
+    //     );
+    // }
 
     /**
      * Get the attachments for the message.

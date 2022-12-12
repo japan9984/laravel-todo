@@ -40,6 +40,6 @@ class HomeController extends Controller
         $folders = Folder::where('user_id', $user_id)
         ->orderBy('updated_at', 'DESC')
         ->get();
-        return view('todo.top', compact('folders'));
+        return view('folder.top', compact('folders'));
     }
 }

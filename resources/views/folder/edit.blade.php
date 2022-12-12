@@ -32,64 +32,25 @@
       <div class="col col-md-offset-3 col-md-6">
         <nav class="panel panel-default">
           <div class="panel-heading " style="display:flex; justify-content: space-between;">
-            <div>タスクを編集する</div>
-
-            <form id="delete-form" action="{{ route('todo.task_destory')}}" method="POST">
+            <div>フォルダーを編集する</div>
+            <form id="delete-form_folder" action="{{ route('folder.destory', $edit_folder->id)}}" method="POST">
                 @csrf
-                <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
-                <i class="fa-solid fa-trash mr-3" onclick="deleteHandle(event);"></i>
+                <input type="hidden" name="folder_id" value="{{ $edit_folder['id'] }}" />
+                <i class="fa-solid fa-trash mr-3" onclick="deleteHandle_folder(event);"></i>
             </form>
           </div>
           <div class="panel-body">
-              @if($errors->has('title') && $errors->has('deadline'))
-
-              <div class="alert alert-danger mb-0">
-                  <p>タイトル は必須入力です。</p>
-                  <p>期限日 は必須入力です。</p>
-                </div>
-
-                @else
-                @error('title')
-                <div class="alert alert-danger mb-0">
-                    <p>タイトル は必須入力です。</p>
-                </div>
-                @enderror
-                @error('deadline')
-                <div class="alert alert-danger mb-0">
-                    <p>期限日 は必須入力です。</p>
-                </div>
-                @enderror
-                @endif
-
-                <form action="{{ route('todo.task_update') }}" method="POST" enctype='multipart/form-data'>
-                    @csrf
-                    @if(!empty($file_path))
-                        <img src="{{asset($file_path)}}" alt="error" style="max-width: 100%;">
-                        @endif
-                        <input type="file" name="image" style="margin:10px auto 20px 0;">
-                <input type="hidden" name="folder_id" value="{{ $edit_memo->folder_id }}" />
-                <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
-                <div class="form-group">
-                <label for="title">タイトル</label>
-                <input type="text" class="form-control" name="title" id="title" value="{{ $edit_memo['content'] }}">
-              </div>
-              <div class="form-group">
-                <label for="status">状態</label>
-                <select name="status" id="status" class="form-control" value="{{ $edit_memo['status'] }}">
-                                      <option value="1" selected="">
-                      未着手
-                    </option>
-                                      <option value="2">
-                      着手中
-                    </option>
-                                      <option value="3">
-                      完了
-                    </option>
-                                  </select>
-              </div>
-              <div class="form-group">
-                <label for="deadline">期限</label>
-                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" value="{{ $edit_memo['deadline'] }}" >
+            @error('title')
+                          <div class="alert alert-danger">
+                                  <p>フォルダ名 は必須入力です。</p>
+                              </div>
+            @enderror
+                        <form action="{{ route('folder.update', $edit_folder->id) }}" method="post">
+                            @csrf
+                            <input type="hidden" name="folder_id" value="{{ $edit_folder['id'] }}" />
+                 <div class="form-group">
+                <label for="title">フォルダ名</label>
+                <input type="text" class="form-control" name="title" id="title" value="{{ $edit_folder['folder'] }}">
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>

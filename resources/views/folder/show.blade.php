@@ -29,20 +29,21 @@
         <nav class="panel panel-default">
           <div class="panel-heading">フォルダ</div>
           <div class="panel-body">
-            <a href="{{ route('todo.folder_create') }}" class="btn btn-default btn-block">
+            <a href="{{ route('folder.create') }}" class="btn btn-default btn-block">
               フォルダを追加する
             </a>
           </div>
           <div class="list-group">
-            <a href="{{ route('todo.folder_index') }}" class="list-group-item">全て</a>
+            <a href="{{ route('folder.index') }}" class="list-group-item">全て</a>
               @foreach($folders as $folder)
               @if($folder->id === $target->id)
                 <div class="list-group-item" style="background-color: rgb(79, 193, 233); display: flex; justify-content: space-between; padding: 0;">
-                      <a href="/todo/folder_show/{{ $folder['id'] }}" style="color: #fff; padding: 10px 15px;">{{ $folder['folder'] }}</a>
-                      <a href="/todo/folder_edit/{{ $folder['id'] }}" style="color: #fff; background-color: red; padding: 10px 15px;">編集しちゃう</a>
+                    {{-- {{ dd($folder); }} --}}
+                      <a href="{{ route('folder.show', $folder['id']) }}" style="color: #fff; padding: 10px 15px;">{{ $folder['folder'] }}</a>
+                      <a href="{{ route('folder.edit', $folder['id']) }}" style="color: #fff; background-color: red; padding: 10px 15px;">編集しちゃう</a>
                 </div>
               @else
-                 <a href="/todo/folder_show/{{ $folder['id'] }}" class="list-group-item">{{ $folder['folder'] }}</a>
+                 <a href="{{ route('folder.show', $folder['id']) }}" class="list-group-item">{{ $folder['folder'] }}</a>
               @endif
               @endforeach
                       </div>
@@ -53,7 +54,7 @@
           <div class="panel-heading">タスク</div>
           <div class="panel-body">
             <div class="text-right">
-                <a href="{{ route('todo.task_create', $target->id)}}" class="btn btn-default btn-block">
+                <a href="{{ route('memo.create', $target->id)}}" class="btn btn-default btn-block">
                 タスクを追加する
               </a>
             </div>
@@ -71,7 +72,7 @@
             <div class="d-block row mt-3 ">
 
                 <tr>
-                    <th>  <a href="/todo/task_edit/{{$memo['id']}}">{{ $memo['content'] }}   </a></th>
+                    <th>  <a href="{{ route('memo.edit', $memo['id']) }}">{{ $memo['content'] }}   </a></th>
                     <th>
 
                       @if( $memo['status']  === 1)

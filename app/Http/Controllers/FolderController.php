@@ -13,50 +13,45 @@ class FolderController extends Controller
 {
     public function index()
     {
-        return view( 'todo.folder_index', );
+        return view( 'folder.index', );
     }
 
     public function show(Folder $folder)
     {
         $user_id = auth()->id();
         $target = $folder;
-        return view('todo.folder_show', compact('target'));
+        return view('folder.show', compact('target'));
     }
 
     public function create()
     {
-        return view('todo.folder_create');
+        return view('folder.create');
     }
 
     public function store(Request $request)
     {
-        $posts = $request->all();
         $user_id = auth()->id();
-        Folder::insert(['folder' => $posts['title'],'user_id'=>$user_id ]);
+        Folder::create(['folder' => $request->title,'user_id'=>$user_id ]);
         $folder_id = Folder::max('id');
-        return redirect()->route('todo.folder_show', $folder_id);
+        return redirect()->route('folder.show', $folder_id);
     }
 
     public function edit($folder)
     {
         $edit_folder = Folder::find($folder);
-        return view('todo.folder_edit',compact('edit_folder'));
+        return view('folder.edit',compact('edit_folder'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Folder $folder)
     {
-        $posts = $request->all();
-        $folder_id = $posts['folder_id'];
-        Folder::where('id', $posts['folder_id'])
-        ->update(['folder' => $posts['title']]);
-        return redirect( route('todo.folder_show', $folder_id) );
+        $folder->update(['folder' => $request->title]);
+        return redirect( route('folder.show', $folder) );
     }
 
-    public function destory(Request $request)
+    public function destory(Request $request, Folder $folder)
     {
-        $folder = Folder::find($request->post('folder_id'));
         $folder->memo()->delete();
         $folder->delete();
-        return redirect(route('todo.folder_index'));
+        return redirect(route('folder.index'));
     }
 }

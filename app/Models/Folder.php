@@ -24,6 +24,10 @@ class Folder extends Model
     {
         return $this->hasMany('App\Models\Memo');
     }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
     protected $fillable = [
         'folder', 'user_id'
