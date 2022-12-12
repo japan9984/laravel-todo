@@ -63,10 +63,10 @@
 
                 <form action="{{ route('todo.task_update') }}" method="POST" enctype='multipart/form-data'>
                     @csrf
-
-                    <img src="{{asset($file_path)}}" alt="error" style="max-width: 100%;">
-                    <input type="file" name="image" style="margin:10px auto 20px 0;">
-
+                    @if(!empty($file_path))
+                        <img src="{{asset($file_path)}}" alt="error" style="max-width: 100%;">
+                        @endif
+                        <input type="file" name="image" style="margin:10px auto 20px 0;">
                 <input type="hidden" name="folder_id" value="{{ $edit_memo->folder_id }}" />
                 <input type="hidden" name="memo_id" value="{{ $edit_memo['id'] }}" />
                 <div class="form-group">
@@ -89,7 +89,7 @@
               </div>
               <div class="form-group">
                 <label for="deadline">期限</label>
-                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" value="{{ $edit_memo['deadline'] }}" required >
+                <input id="deadline" type="date" class="form-control flatpickr-input" name="deadline" value="{{ $edit_memo['deadline'] }}" >
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>

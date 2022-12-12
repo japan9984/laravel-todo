@@ -36,7 +36,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        $folders = Folder::where('user_id', '=', \Auth::id())
+        $user_id = auth()->id();
+        $folders = Folder::where('user_id', $user_id)
         ->orderBy('updated_at', 'DESC')
         ->get();
         return view('todo.top', compact('folders'));

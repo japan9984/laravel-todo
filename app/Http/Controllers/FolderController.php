@@ -31,8 +31,8 @@ class FolderController extends Controller
     public function store(Request $request)
     {
         $posts = $request->all();
-        $request->validate([ 'title' => 'required']);
-        Folder::insert(['folder' => $posts['title'],'user_id'=>\Auth::id()]);
+        $user_id = auth()->id();
+        Folder::insert(['folder' => $posts['title'],'user_id'=>$user_id ]);
         $folder_id = Folder::max('id');
         return redirect()->route('todo.folder_show', $folder_id);
     }
@@ -47,7 +47,6 @@ class FolderController extends Controller
     {
         $posts = $request->all();
         $folder_id = $posts['folder_id'];
-        $request->validate([ 'title' => 'required']);
         Folder::where('id', $posts['folder_id'])
         ->update(['folder' => $posts['title']]);
         return redirect( route('todo.folder_show', $folder_id) );

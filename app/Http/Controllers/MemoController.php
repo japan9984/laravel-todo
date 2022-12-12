@@ -8,26 +8,32 @@ use Illuminate\Mail\Mailables\Content;
 use App\Models\Memo;
 use App\Models\Folder;
 use Illuminate\Auth\Events\Validated;
+use App\Http\Requests\PostRequest;
 
 class MemoController extends Controller
 {
-    public function create(Request $request, $folder_id)
+    public function create(Request $request, Folder $folder)
     {
-        return view('todo.task_create', compact('folder_id'));
+        return view('todo.task_create', compact('folder'));
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request, Folder $folder)
     {
-        $request->validate([ 'title' => 'required' , 'deadline' => 'required' ]);
-        $posts = $request->all();
-        $folder_id = $request->folder_id;
-
-        $user_id = auth()->id();
-
-        $file_name = $request->image->getClientOriginalName();
-        $img = $request->file('image')->storeAs('public/image/', $file_name );
-        Memo::insert(['content' => $posts['title'],'folder_id' => $posts['folder_id'],'status' => $posts['status'],'deadline' => $posts['deadline'],'user_id'=> $user_id,'file_path' => 'storage/image/'.$file_name ]);
-        return redirect( 'todo/folder_show/'.$folder_id);
+        $user = auth()->user();
+        $memo = Memo::create([
+            'content' => $request['title'],
+            'folder_id' => $folder->id ,
+            'status' => $request['status'],
+            'deadline' => $request['deadline'],
+            'user_id'=> $user->id,
+        ]);
+        if ($request->hasFile('image')) {
+            $file_name = $request->image->getClientOriginalName();
+            $request->file('image')->storeAs('public/image/', $file_name );
+            $memo->file_path = 'storage/image/'.$file_name;
+            $memo->save();
+        }
+        return redirect()->route('todo.folder_show', $folder);
     }
 
     public function edit(Memo $memo)
@@ -37,15 +43,18 @@ class MemoController extends Controller
         return view('todo.task_edit',compact('edit_memo', 'file_path'));
     }
 
-    public function update(Request $request)
+    public function update(PostRequest $request)
     {
         $posts = $request->all();
         $folder_id = $posts['folder_id'];
-        $file_name = $request->image->getClientOriginalName();
-        $img = $request->file('image')->storeAs('public/image/', $file_name );
-        $request->validate([ 'title' => 'required' , 'deadline' => 'required' ]);
+        if($request->image !== null){
+            $file_name = $request->image->getClientOriginalName();
+            $img = $request->file('image')->storeAs('public/image/', $file_name );
+            Memo::where('id', $posts['memo_id'])
+            ->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline'],'file_path' => 'storage/image/'.$file_name ]);
+        }
         Memo::where('id', $posts['memo_id'])
-        ->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline'],'file_path' => 'storage/image/'.$file_name ]);
+        ->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline']]);
         return redirect( route('todo.folder_show', $folder_id) );
     }
 

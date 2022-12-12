@@ -53,7 +53,7 @@
           <div class="panel-heading">タスク</div>
           <div class="panel-body">
             <div class="text-right">
-                <a href="/todo/task_create/{{ $target->id }}" class="btn btn-default btn-block">
+                <a href="{{ route('todo.task_create', $target->id)}}" class="btn btn-default btn-block">
                 タスクを追加する
               </a>
             </div>

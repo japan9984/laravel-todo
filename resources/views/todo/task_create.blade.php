@@ -32,7 +32,7 @@
         <nav class="panel panel-default">
           <div class="panel-heading">タスクを追加する</div>
           <div class="panel-body">
-              <form action="{{ route('todo.task_store') }}" method="POST"  enctype='multipart/form-data'>
+              <form action="{{ route('todo.task_store', $folder) }}" method="POST"  enctype='multipart/form-data'>
                 @csrf
                 @if($errors->has('title') && $errors->has('deadline'))
 
@@ -55,7 +55,7 @@
                 @endif
 
               <input type="hidden" name="status" value="1">
-              <input type="hidden" value="{{ ($folder_id) }}" name="folder_id">
+              {{-- <input type="hidden" value="{{ ($folder->id) }}" name="folder_id"> --}}
               <div class="form-group">
                 <label for="title">タイトル</label>
                 <input type="text" class="form-control" name="title" id="title" value="">

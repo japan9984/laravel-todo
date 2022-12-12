@@ -19,21 +19,25 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+Route::post('sample', 'FormController@postValidates');
+
 // Route::group(['middleware' => 'user-guard'], function () {
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
 
-Route::get('/todo/task_create/{folder_id}', [MemoController::class, 'create'])->name('todo.task_create');
-Route::post('/todo/task_store/', [MemoController::class, 'store'])->name('todo.task_store');
-Route::get('/todo/task_edit/{memo}', [MemoController::class, 'edit'])->name('todo.task_edit')->middleware('user.edit-memo');
-Route::post('/todo/task_update/', [MemoController::class, 'update'])->name('todo.task_update');
-Route::post('/todo/task_destory/', [MemoController::class, 'destory'])->name('todo.task_destory');
+Route::group(['prefix' => 'todo','as' => 'todo.'],function(){
+    Route::get('task_create/folder/{folder}', [MemoController::class, 'create'])->name('task_create');
+    Route::post('task_store/folder/{folder}', [MemoController::class, 'store'])->name('task_store');
+    Route::get('task_edit/{memo}', [MemoController::class, 'edit'])->name('task_edit')->middleware('user.edit-memo');
+    Route::post('task_update/', [MemoController::class, 'update'])->name('task_update');
+    Route::post('task_destory/', [MemoController::class, 'destory'])->name('task_destory');
 
-Route::get('/todo/folder_index/', [FolderController::class, 'index'])->name('todo.folder_index');
-Route::get('/todo/folder_show/{folder}', [FolderController::class, 'show'])->name('todo.folder_show')->middleware('user');
-Route::get('/todo/folder_create/', [FolderController::class, 'create'])->name('todo.folder_create');
-Route::post('/todo/folder_store/', [FolderController::class, 'store'])->name('todo.folder_store');
-Route::get('/todo/folder_edit/{folder}', [FolderController::class, 'edit'])->name('todo.folder_edit')->middleware('user.edit');
-Route::post('/todo/folder_update/', [FolderController::class, 'update'])->name('todo.folder_update');
-Route::post('/todo/folder_destory/', [FolderController::class, 'destory'])->name('todo.folder_destory');
+    Route::get('folder_index/', [FolderController::class, 'index'])->name('folder_index');
+    Route::get('folder_show/{folder}', [FolderController::class, 'show'])->name('folder_show')->middleware('user');
+    Route::get('folder_create/', [FolderController::class, 'create'])->name('folder_create');
+    Route::post('folder_store/', [FolderController::class, 'store'])->name('folder_store');
+    Route::get('folder_edit/{folder}', [FolderController::class, 'edit'])->name('folder_edit')->middleware('user.edit');
+    Route::post('folder_update/', [FolderController::class, 'update'])->name('folder_update');
+    Route::post('folder_destory/', [FolderController::class, 'destory'])->name('folder_destory');
+});
 // });

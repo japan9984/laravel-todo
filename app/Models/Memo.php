@@ -23,4 +23,8 @@ class Memo extends Model
     {
         return $this->belongsTo('App\Models\Folder');
     }
+
+    protected $fillable = [
+        'content', 'folder_id', 'status', 'deadline', 'user_id'
+    ];
 }
