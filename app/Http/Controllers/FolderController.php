@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Mail\Mailables\Content;
+use App\Models\User;
 use App\Models\Memo;
 use App\Models\Folder;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\Gate;
 
 class FolderController extends Controller
 {
@@ -27,8 +29,11 @@ class FolderController extends Controller
      * @param Folder $folder
      * @return void
      */
-    public function show(Folder $folder)
+    public function show(User $user,Folder $folder)
     {
+        if(! Gate::allows('folderCheck', $folder)){
+            abort(404);
+        }
         $user_id = auth()->id();
         $target = $folder;
         return view('folder.show', compact('target'));
@@ -66,6 +71,9 @@ class FolderController extends Controller
      */
     public function edit($folder)
     {
+        if(! Gate::allows('folderCheck', $folder)){
+            abort(404);
+        }
         $edit_folder = Folder::find($folder);
         return view('folder.edit', compact('edit_folder'));
     }

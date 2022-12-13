@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 use App\Models\Memo;
 use App\Models\Folder;
 
@@ -37,8 +39,7 @@ class AppServiceProvider extends ServiceProvider
             }else{
                 $bg_path = 'null';
             }
-
-
+            
             $view->with('memos', $memos)->with('folders', $folders)->with('bg_path', $bg_path);
         });
     }

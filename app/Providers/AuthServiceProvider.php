@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use App\Models\Memo;
+use App\Models\Folder;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,5 +28,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        // 以下を追加
+        Gate::define('folderCheck', function(User $user,Folder $folder) {
+            return $user->id === $folder->user_id;
+            });
+        Gate::define('memoCheck', function (User $user, Memo $memo) {
+            return $user->id === $memo->user_id;
+        });
+
     }
 }

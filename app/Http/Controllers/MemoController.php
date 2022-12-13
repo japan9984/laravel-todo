@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Mail\Mailables\Content;
+use App\Models\User;
 use App\Models\Memo;
 use App\Models\Folder;
 use Illuminate\Auth\Events\Validated;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MemoAddMail;
+use Illuminate\Support\Facades\Gate;
 
 class MemoController extends Controller
 {
@@ -63,8 +65,11 @@ class MemoController extends Controller
      * @param Memo $memo
      * @return void
      */
-    public function edit(Memo $memo)
+    public function edit(User $user,Memo $memo)
     {
+        if(! Gate::allows('memoCheck', $memo)){
+            abort(404);
+        }
         $file_path = $memo->file_path;
         return view('memo.edit', compact('memo', 'file_path'));
     }
