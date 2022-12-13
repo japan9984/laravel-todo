@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Mail\Mailables\Content;
+use App\Models\User;
 use App\Models\Memo;
 use App\Models\Folder;
 use App\Models\MemoFolder;
@@ -47,6 +48,11 @@ class HomeController extends Controller
         ->orderBy('updated_at', 'DESC')
         ->get();
         return view('folder.top', compact('folders'));
+    }
+    public function csv()
+    {
+        $users = User::select('users.*')->get();
+        return view('csv', compact('users'));
     }
 
 }

@@ -80,11 +80,6 @@ class MemoController extends Controller
     {
         $posts = $request->all();
         $memo->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline']]);
-        // if ($request->image !== null) {
-        //     $file_name = $request->image->getClientOriginalName();
-        //     $request->file('image')->storeAs('public/image/', $file_name);
-        //     $memo->update(['content' => $posts['title'], 'status' => $posts['status'],'deadline' => $posts['deadline'],'file_path' => 'storage/image/'.$file_name ]);
-        // }
         if ($request->hasFile('image')) {
             $file_name = $request->image->getClientOriginalName();
             $request->file('image')->storeAs('public/image/', $file_name);

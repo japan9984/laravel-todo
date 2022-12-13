@@ -20,8 +20,12 @@
         <nav class="my-navbar">
             <a class="my-navbar-brand" href="/">ToDo App</a>
             <div class="my-navbar-control">
-                <a class="my-navbar-item" style="background-color: yellow; color: #333; padding: 10px;"
-                    href="{{ route('bg.create') }}">背景画像設定</a>
+                <a href="{{ route('csv') }}">
+                    <button>csvダウンロード</button>
+                </a>
+                <a href="{{ route('bg.create') }}">
+                    <button>背景画像設定</button>
+                </a>
                 <span class="my-navbar-item">ようこそ, {{ Auth::user()->name }}さん</span>
                 ｜
                 <a href="/" id="logout" class="my-navbar-item">ログアウト</a>
@@ -45,9 +49,9 @@
                             </form>
                         </div>
                         <div class="panel-body">
-                            @if($bg_path !== "null")
+                            {{-- @if($bg_path !== "null")
                             <img src="{{asset($bg_path)}}" style="max-width: 100%;">
-                            @endif
+                            @endif --}}
                             <form action="{{ route('bg.store') }}" method="POST" enctype='multipart/form-data'>
                                 @csrf
                                 <div class="form-group">

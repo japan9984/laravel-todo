@@ -16,14 +16,15 @@
         <nav class="my-navbar">
             <a class="my-navbar-brand" href="/">ToDo App</a>
             <div class="my-navbar-control">
-                <a class="my-navbar-item" style="background-color: yellow; color: #333; padding: 10px;"
-                    href="{{ route('bg.create') }}">背景画像設定</a>
+                <a href="{{ route('csv') }}">
+                    <button>csvダウンロード</button>
+                </a>
+                <a href="{{ route('bg.create') }}">
+                    <button>背景画像設定</button>
+                </a>
                 <span class="my-navbar-item">ようこそ, {{ Auth::user()->name }}さん</span>
                 ｜
                 <a href="/" id="logout" class="my-navbar-item">ログアウト</a>
-
-                <a href="{{ route('bg.create') }}">背景画像設定</a>
-
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>

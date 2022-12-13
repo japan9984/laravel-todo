@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('index');
+Route::get('/csv', [HomeController::class, 'csv'])->name('csv');
 
 Route::group(['prefix' => 'bg','as' => 'bg.'],function(){
     Route::get('create/', [BgController::class, 'create'])->name('create');
@@ -47,3 +48,4 @@ Route::group(['prefix' => 'folder','as' => 'folder.'],function(){
     Route::post('update/{folder}', [FolderController::class, 'update'])->name('update');
     Route::post('destory/{folder}', [FolderController::class, 'destory'])->name('destory');
 });
+
