@@ -11,6 +11,11 @@ class Memo extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /**
+     * 認証ユーザーのメモを取得します
+     *
+     * @return void
+     */
     public function getMyMemo()
     {
         $user_id = auth()->id();

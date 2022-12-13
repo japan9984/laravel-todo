@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('/css/4_top_files/styles.css') }}">
 </head>
 
-<body style="background-image: url('{{ asset($bg_path ) }}')">
+<body  style="background-image: url('{{ asset($bg_path ) }}')">
     <header>
         <nav class="my-navbar">
             <a class="my-navbar-brand" href="/">ToDo App</a>

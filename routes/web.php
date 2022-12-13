@@ -47,5 +47,3 @@ Route::group(['prefix' => 'folder','as' => 'folder.'],function(){
     Route::post('update/{folder}', [FolderController::class, 'update'])->name('update');
     Route::post('destory/{folder}', [FolderController::class, 'destory'])->name('destory');
 });
-
-Route::get('mail/send',  [FormController::class, 'send'])->name('send');

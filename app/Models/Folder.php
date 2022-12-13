@@ -11,6 +11,11 @@ class Folder extends Model
     use HasFactory;
     use SoftDeletes;
 
+    /**
+     * 認証ユーザーのフォルダーを取得します
+     *
+     * @return void
+     */
     public function getMyFolder()
     {
         $user_id = auth()->id();

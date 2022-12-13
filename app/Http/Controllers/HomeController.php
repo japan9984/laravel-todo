@@ -29,11 +29,17 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-    public function home()
-    {
-        return view('create');
-    }
 
+    // public function home()
+    // {
+    //     return view('create');
+    // }
+
+    /**
+     * ログイン後にフォルダ作成画面を表示します
+     *
+     * @return void
+     */
     public function index()
     {
         $user_id = auth()->id();

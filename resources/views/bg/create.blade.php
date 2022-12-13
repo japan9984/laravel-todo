@@ -15,7 +15,7 @@
     <script src="/js/confirm.js"></script>
 </head>
 
-<body>
+<body  style="background-image: url('{{ asset($bg_path ) }}')">
     <header>
         <nav class="my-navbar">
             <a class="my-navbar-brand" href="/">ToDo App</a>
@@ -45,7 +45,7 @@
                             </form>
                         </div>
                         <div class="panel-body">
-                            @if($bg_path !== 'null')
+                            @if($bg_path !== "null")
                             <img src="{{asset($bg_path)}}" style="max-width: 100%;">
                             @endif
                             <form action="{{ route('bg.store') }}" method="POST" enctype='multipart/form-data'>
